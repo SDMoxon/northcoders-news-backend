@@ -13,5 +13,6 @@ routes.get('/', (req, res) => {
 routes.get('/topics', Topics.getTopics);
 routes.get('/articles', Articles.getArticles);
 routes.get('/users/:username', Users.getUser);
+routes.get('/topics/:topic_id/articles', Articles.getArticlesByTopic);
 
 module.exports = routes;
