@@ -1,0 +1,36 @@
+{
+  "name": "reddit-clone-backend",
+  "version": "1.0.0",
+  "description": "Backend of the Reddit clone project. Built using Node.js, Express.js, MongoDB, Mongoose",
+  "main": "config.js",
+  "scripts": {
+    "test": "mocha ./spec",
+    "start": "nodemon server.js",
+    "lint": "eslint ./",
+    "posttest": "npm run lint",
+    "precommit": "npm test"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "chance": "^1.0.4",
+    "cors": "^2.8.4",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "husky": "^0.13.4",
+    "mocha": "^3.4.2",
+    "supertest": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDMoxon/reddit-clone-backend.git"
+  },
+  "author": "Steven Moxon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDMoxon/reddit-clone-backend/issues"
+  },
+  "homepage": "https://github.com/SDMoxon/reddit-clone-backend#readme"
+}
