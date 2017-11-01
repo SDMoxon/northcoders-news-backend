@@ -27,3 +27,19 @@ exports.getArticlesByTopic = (req, res) => {
             rej.status(500);
         });
 };
+
+exports.alterVotes = (req, res) => {
+    const vote = req.query.vote;
+    let change;
+    vote === 'up' ?
+        change = Articles.findByIdAndUpdate({ _id: req.params.article_id }, { $inc: { votes: 1 } }, { new: true })    
+        :
+        change = Articles.findByIdAndUpdate({ _id: req.params.article_id }, { $inc: { votes: -1 } }, { new: true });
+    change.then((article) => {
+        if (!article) { res.status(404).json('Not Found'); }
+        res.status(201).json(article);
+    })
+        .catch((err) => {
+            res.status(500).json(err);
+        });
+};  
