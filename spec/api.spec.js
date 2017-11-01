@@ -7,7 +7,6 @@ const saveTestData = require('../seed/test.seed');
 mongoose.Promise = global.Promise;
 
 describe('API', function () {
-    this.timeout(5000);
     let usefulData;
     beforeEach(done => {
         mongoose.connection.dropDatabase()
