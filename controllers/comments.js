@@ -27,3 +27,19 @@ exports.postNewComment = ((req, res) => {
         });
 
 });
+
+exports.alterVotes = (req, res) => {
+    const vote = req.query.vote;
+    let change;
+    vote === 'up' ?
+        change = Comments.findByIdAndUpdate({ _id: req.params.comment_id }, { $inc: { votes: 1 } }, { new: true })    
+        :
+        change = Comments.findByIdAndUpdate({ _id: req.params.comment_id }, { $inc: { votes: -1 } }, { new: true });
+    change.then((comment) => {
+        if (!comment) { res.status(404).json('Not Found'); }
+        res.status(201).json(comment);
+    })
+        .catch((err) => {
+            res.status(500).json(err);
+        });
+};  
