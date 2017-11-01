@@ -9,10 +9,13 @@ const config = require('./config');
 const db = config.DB[process.env.NODE_ENV] || process.env.DB;
 const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
 const routes = require('./routers/router');
+const cors = require('cors');
 
 mongoose.connect(db, () => {
     console.log('connected to db');
 });
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
