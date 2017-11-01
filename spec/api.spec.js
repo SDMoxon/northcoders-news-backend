@@ -77,4 +77,20 @@ describe('API', function () {
                 });
         });
     });
+    describe('GET /api/users/:username', function () {
+        it('responds with a user matching to username supplied ', function (done) {
+          request(server)
+            .get('/api/users/northcoder')
+            .end((err, res) => {
+              if (err) done(err);
+              else {
+                expect(res.status).to.equal(200);
+                expect(res.body.hasOwnProperty('users')).to.equal(true);
+                expect(res.body.users.length).to.equal(1);
+                expect(res.body.users[0].name).to.equal('Awesome Northcoder');
+                done();
+              }
+            });
+        });
+      });
 });
