@@ -10,14 +10,14 @@ describe('API', function () {
     this.timeout(5000);
     let usefulData;
     beforeEach(done => {
-      mongoose.connection.dropDatabase()
-        .then(saveTestData)
-        .then(data => {
-          usefulData = data;
-          console.log(usefulData.user.username);
-          done();
-        })
-        .catch(done);
+        mongoose.connection.dropDatabase()
+            .then(saveTestData)
+            .then(data => {
+                usefulData = data;
+                console.log(usefulData.user.username);
+                done();
+            })
+            .catch(done);
     });
     describe('GET /', function () {
         it('responds with status code 200', (done) => {
@@ -40,6 +40,22 @@ describe('API', function () {
                     if (err) done(err);
                     else {
                         expect(res.status).to.equal(200);
+                        done();
+                    }
+                });
+        });
+    });
+    describe('GET /api/topics', function () {
+        it('responds with an array of topics', function (done) {
+            request(server)
+                .get('/api/topics')
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(200);
+                        expect(res.body.topics).to.be.an('array');
+                        expect(res.body.hasOwnProperty('topics')).to.equal(true);
+                        expect(res.body.topics.length).to.equal(3);
                         done();
                     }
                 });
