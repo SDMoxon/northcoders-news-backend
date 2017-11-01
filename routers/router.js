@@ -19,5 +19,6 @@ routes.get('/articles/:article_id/comments', Comments.getCommentsByArticle);
 routes.post('/articles/:article_id/comments', Comments.postNewComment);
 
 routes.put('/articles/:article_id', Articles.alterVotes);
+routes.put('/comments/:comment_id', Comments.alterVotes);
 
 module.exports = routes;
