@@ -109,4 +109,20 @@ describe('API', function () {
                 });
         });
     });
+    describe('GET /api/articles/article_id/comments', function () {
+        it('responds with a list of commments tied to an article id ', function (done) {
+            request(server)
+                .get(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(200);
+                        expect(res.body.hasOwnProperty('comments')).to.equal(true);
+                        expect(res.body.comments.length).to.equal(2);
+                        expect(res.body.comments[0]._id.toString()).to.equal(usefulData.comments[0]._id.toString());
+                        done();
+                    }
+                });
+        });
+    });
 });
