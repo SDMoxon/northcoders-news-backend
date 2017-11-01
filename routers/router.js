@@ -16,4 +16,6 @@ routes.get('/users/:username', Users.getUser);
 routes.get('/topics/:topic_id/articles', Articles.getArticlesByTopic);
 routes.get('/articles/:article_id/comments', Comments.getCommentsByArticle);
 
+routes.post('/articles/:article_id/comments', Comments.postNewComment);
+
 module.exports = routes;
