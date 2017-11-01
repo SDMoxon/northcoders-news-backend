@@ -1,6 +1,6 @@
 const routes = require('express').Router();
-const { Topics
-        // Articles, 
+const { Topics,
+        Articles, 
         // Users, 
         // Comments 
         } = require('../controllers');
@@ -11,5 +11,6 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/topics', Topics.getTopics);
+routes.get('/articles', Articles.getArticles);
 
 module.exports = routes;
