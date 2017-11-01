@@ -1,7 +1,7 @@
 const routes = require('express').Router();
 const { Topics,
         Articles, 
-        // Users, 
+        Users, 
         // Comments 
         } = require('../controllers');
 
@@ -12,5 +12,6 @@ routes.get('/', (req, res) => {
 
 routes.get('/topics', Topics.getTopics);
 routes.get('/articles', Articles.getArticles);
+routes.get('/users/:username', Users.getUser);
 
 module.exports = routes;
