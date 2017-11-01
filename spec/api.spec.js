@@ -14,7 +14,6 @@ describe('API', function () {
             .then(saveTestData)
             .then(data => {
                 usefulData = data;
-                console.log(usefulData.user.username);
                 done();
             })
             .catch(done);
@@ -148,6 +147,22 @@ describe('API', function () {
             const previous = usefulData.articles[0];
             request(server)
                 .put(`/api/articles/${usefulData.articles[0]._id}?vote=up`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(201);
+                        expect(res.body._id).to.equal(previous._id.toString());
+                        expect(res.body.votes).to.equal(previous.votes + 1);
+                        done();
+                    }
+                });
+        });
+    });
+    describe('PUT /api/comments/:commentId', function () {
+        it('responds with increased votes ', function (done) {
+            const previous = usefulData.comments[0];
+            request(server)
+                .put(`/api/comments/${usefulData.comments[0]._id}?vote=up`)
                 .end((err, res) => {
                     if (err) done(err);
                     else {
