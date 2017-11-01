@@ -125,4 +125,22 @@ describe('API', function () {
                 });
         });
     });
+    describe('POST /api/articles/article_id/comments', function () {
+        it('responds with the new comment ', function (done) {
+          request(server)
+            .post(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
+            .send({
+              body:'test'
+            })
+            .end((err, res) => {
+              if (err) done(err);
+              else {
+                expect(res.status).to.equal(201);
+                expect(res.body.body).to.eql('test');
+                expect(res.body.belongs_to).to.eql(usefulData.comments[0].belongs_to.toString());
+                done();
+              }
+            });
+        });
+      });
 });
