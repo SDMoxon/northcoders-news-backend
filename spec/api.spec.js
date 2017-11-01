@@ -127,20 +127,36 @@ describe('API', function () {
     });
     describe('POST /api/articles/article_id/comments', function () {
         it('responds with the new comment ', function (done) {
-          request(server)
-            .post(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
-            .send({
-              body:'test'
-            })
-            .end((err, res) => {
-              if (err) done(err);
-              else {
-                expect(res.status).to.equal(201);
-                expect(res.body.body).to.eql('test');
-                expect(res.body.belongs_to).to.eql(usefulData.comments[0].belongs_to.toString());
-                done();
-              }
-            });
+            request(server)
+                .post(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
+                .send({
+                    body: 'test'
+                })
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(201);
+                        expect(res.body.body).to.eql('test');
+                        expect(res.body.belongs_to).to.eql(usefulData.comments[0].belongs_to.toString());
+                        done();
+                    }
+                });
         });
-      });
+    });
+    describe('PUT /api/articles/article_id', function () {
+        it('responds with increased votes ', function (done) {
+            const previous = usefulData.articles[0];
+            request(server)
+                .put(`/api/articles/${usefulData.articles[0]._id}?vote=up`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(201);
+                        expect(res.body._id).to.equal(previous._id.toString());
+                        expect(res.body.votes).to.equal(previous.votes + 1);
+                        done();
+                    }
+                });
+        });
+    });
 });
