@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 const bodyParser = require('body-parser');
 const config = require('./config');
-const db = process.env.NODE_ENV === 'test' ? config.DB.test : config.DB.prod;
-const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
+const db = process.env.NODE_ENV === 'test' ? config.DB.test : config.DB.dev;
+const PORT = config.PORT[process.env.NODE_ENV] || config.PORT.dev;
 const routes = require('./routers/router');
 const cors = require('cors');
 
