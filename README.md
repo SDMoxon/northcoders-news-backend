@@ -25,3 +25,21 @@ Built With
 - Express.js
 - MongoDB
 - Mongoose
+
+**List of Available Routes**
+
+GET    
+    /api/topics
+    /api/articles
+    /api/users/:username
+    /topics/:topic_id/articles
+    /articles/:article_id/comments'
+
+POST
+
+    /articles/:article_id/comments'
+
+PUT
+
+    /articles/:article_id'
+    /comments/:comment_id'
