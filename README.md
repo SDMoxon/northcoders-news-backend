@@ -29,17 +29,17 @@ Built With
 **List of Available Routes**
 
 GET    
-    /api/topics
-    /api/articles
-    /api/users/:username
-    /topics/:topic_id/articles
-    /articles/:article_id/comments
+- /api/topics
+- /api/articles
+- /api/users/:username
+- /topics/:topic_id/articles
+- /articles/:article_id/comments
 
 POST
 
-    /articles/:article_id/comments
+- /articles/:article_id/comments
 
 PUT
 
-    /articles/:article_id'
-    /comments/:comment_id'
+- /articles/:article_id
+- /comments/:comment_id
