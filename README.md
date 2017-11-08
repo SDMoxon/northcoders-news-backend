@@ -33,11 +33,11 @@ GET
     /api/articles
     /api/users/:username
     /topics/:topic_id/articles
-    /articles/:article_id/comments'
+    /articles/:article_id/comments
 
 POST
 
-    /articles/:article_id/comments'
+    /articles/:article_id/comments
 
 PUT
 
