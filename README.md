@@ -9,7 +9,7 @@ then
 
     git clone https://github.com/SDMoxon/northcoders-news-backend.git
 
-    cd northcoders-news-frontend
+    cd northcoders-news-backend
 
     npm install
 
@@ -22,5 +22,6 @@ To run the tests:
 Built With
 
 - Javascript
-- React
-- Create React App
+- Express.js
+- MongoDB
+- Mongoose
