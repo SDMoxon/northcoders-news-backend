@@ -21,4 +21,6 @@ routes.post('/articles/:article_id/comments', Comments.postNewComment);
 routes.put('/articles/:article_id', Articles.alterVotes);
 routes.put('/comments/:comment_id', Comments.alterVotes);
 
+routes.delete('/comments/:comment_id', Comments.deleteComment);
+
 module.exports = routes;

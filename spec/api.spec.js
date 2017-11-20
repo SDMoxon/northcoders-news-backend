@@ -173,4 +173,18 @@ describe('API', function () {
                 });
         });
     });
+    describe('DELETE /api/comments/:commentId', function () {
+        it('responds with status 200 and the comment if comment is found and delelted', function (done) {
+            request(server)
+                .delete(`/api/comments/${usefulData.comments[0]._id}`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(200);
+                        expect(res.body._id).to.equal(usefulData.comments[0]._id.toString());
+                        done();
+                    }
+                });
+        });
+    });
 });
