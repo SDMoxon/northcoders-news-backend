@@ -5,7 +5,7 @@ mongoose.Promise = Promise;
 const bodyParser = require('body-parser');
 const config = require('./config');
 const db = process.env.NODE_ENV === 'test' ? config.DB.test : config.DB.dev;
-const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT || 3000;
+const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT || config.PORT.dev;
 const routes = require('./routers/router');
 const cors = require('cors');
 
