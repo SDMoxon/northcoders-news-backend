@@ -23,6 +23,7 @@ app.get('/', function (req, res) {
 
 app.use('/api', routes);
 
+/*eslint-disable */
 app.use(function (req, res, next) {
     res.status(404).send('file not found');
 });
@@ -30,6 +31,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.send('server encountered an error');
 });
+/* eslint-enable */
 
 
 app.listen(PORT, function () {
