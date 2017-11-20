@@ -1,19 +1,19 @@
 const { Articles } = require('../models/models');
 
-exports.getArticles = (req, res) => {
+exports.getArticles = (req, res, next) => {
     Articles.find()
         .then((articles) => {
             if (!articles.length) {
-                return res.status(404).json({ message: 'Articles not found' });
+                next();
             }
             res.json({
                 articles
             });
-        }).catch((rej) => {
-            rej.status(500);
+        }).catch((err) => {
+            next(err);
         });
 };
-exports.getArticlesByTopic = (req, res) => {
+exports.getArticlesByTopic = (req, res, next) => {
     Articles.find({ belongs_to: req.params.topic_id })
         .then(articles => {
             if (!articles.length) {
@@ -23,12 +23,12 @@ exports.getArticlesByTopic = (req, res) => {
             res.json({
                 articles
             });
-        }).catch((rej) => {
-            rej.status(500);
+        }).catch((err) => {
+            next(err);
         });
 };
 
-exports.alterVotes = (req, res) => {
+exports.alterVotes = (req, res, next) => {
     const vote = req.query.vote;
     let change;
     vote === 'up' ?
@@ -36,10 +36,10 @@ exports.alterVotes = (req, res) => {
         :
         change = Articles.findByIdAndUpdate({ _id: req.params.article_id }, { $inc: { votes: -1 } }, { new: true });
     change.then((article) => {
-        if (!article) { res.status(404).json('Not Found'); }
+        if (!article) { next(); }
         res.status(201).json(article);
     })
         .catch((err) => {
-            res.status(500).json(err);
+            next(err);
         });
 };  

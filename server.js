@@ -5,7 +5,7 @@ mongoose.Promise = Promise;
 const bodyParser = require('body-parser');
 const config = require('./config');
 const db = process.env.NODE_ENV === 'test' ? config.DB.test : config.DB.dev;
-const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
+const PORT = config.PORT[process.env.NODE_ENV] || 3000;
 const routes = require('./routers/router');
 const cors = require('cors');
 
@@ -22,6 +22,15 @@ app.get('/', function (req, res) {
 });
 
 app.use('/api', routes);
+
+app.use(function (req, res, next) {
+    res.status(404).send('file not found');
+});
+
+app.use(function (err, req, res, next) {
+    res.send('server encountered an error');
+});
+
 
 app.listen(PORT, function () {
     console.log(`listening on port ${PORT}`);

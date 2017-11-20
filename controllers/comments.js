@@ -1,19 +1,19 @@
 const { Comments } = require('../models/models');
-exports.getCommentsByArticle = (req, res) => {
+exports.getCommentsByArticle = (req, res, next) => {
     Comments.find({ belongs_to: req.params.article_id })
         .then((comments) => {
             if (!comments) {
-                return resizeBy.status(404).json({ message: 'Article not found' });
+                next(comments);
             }
-            res.json({
+            res.status(200).json({
                 comments
             });
-        }).catch((rej) => {
-            rej.status(500);
+        }).catch((err) => {
+            next(err);
         });
 };
 
-exports.postNewComment = ((req, res) => {
+exports.postNewComment = ((req, res, next) => {
     const comment = new Comments({
         body: req.body.body,
         belongs_to: req.params.article_id
@@ -23,12 +23,12 @@ exports.postNewComment = ((req, res) => {
             res.status(201).json(comment);
         })
         .catch((err) => {
-            res.status(500).json({ message: err });
+            next(err);
         });
 
 });
 
-exports.alterVotes = (req, res) => {
+exports.alterVotes = (req, res, next) => {
     const vote = req.query.vote;
     let change;
     vote === 'up' ?
@@ -36,19 +36,20 @@ exports.alterVotes = (req, res) => {
         :
         change = Comments.findByIdAndUpdate({ _id: req.params.comment_id }, { $inc: { votes: -1 } }, { new: true });
     change.then((comment) => {
-        if (!comment) { res.status(404).json('Not Found'); }
+        if (!comment) { next(); }
         res.status(201).json(comment);
     })
         .catch((err) => {
             res.status(500).json(err);
         });
 };
-exports.deleteComment = (req, res) => {
+exports.deleteComment = (req, res, next) => {
     Comments.findByIdAndRemove({ _id: req.params.comment_id })
-    .then((comment) => {
-        res.status(200).send(comment);
-    })
-    .catch((err) => {
-            res.status(500).json(err);
+        .then((comment) => {
+            if (!comment) { next(); }
+            res.status(200).send(comment);
+        })
+        .catch((err) => {
+            next(err);
         });
 };  

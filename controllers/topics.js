@@ -1,15 +1,15 @@
 const { Topics } = require('../models/models');
 
-exports.getTopics = (req,res) => {
+exports.getTopics = (req, res, next) => {
     Topics.find()
         .then((topics) => {
             if (!topics) {
-                return resizeBy.status(404).json({ message: 'Topic not found' });
+                next();
             }
             res.json({
                 topics
             });
-        }).catch((rej) => {
-            rej.status(500);
+        }).catch((err) => {
+            next(err);
         });
 };
