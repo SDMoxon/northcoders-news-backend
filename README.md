@@ -43,3 +43,6 @@ PUT
 
 - /articles/:article_id
 - /comments/:comment_id
+
+DELETE 
+- /comments/:comment_id
