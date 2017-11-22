@@ -1,10 +1,40 @@
 process.env.NODE_ENV = 'test';
 const { expect } = require('chai');
-const request = require('supertest');
+const app = require('../server');
+const request = require('supertest')(app);
 const mongoose = require('mongoose');
-const server = require('../server');
 const saveTestData = require('../seed/test.seed');
 mongoose.Promise = global.Promise;
+
+
+describe('Authentication', () => {
+    it('should respond with a 200 if login is successful', (done) => {
+        request
+            .post('/login')
+            .send({ username: 'northcoder', password: 'password' })
+            .end((err, res) => {
+                if (err) done(err);
+                else {
+                    expect(res.status).to.equal(200);
+                    expect(res.body.successful).to.be.true;
+                    done();
+                }
+            });
+    });
+    it('should respond with a 401 if login is unsuccessful', (done) => {
+        request
+            .post('/login')
+            .send({ username: 'northcoder', password: 'testing' })
+            .end((err, res) => {
+                if (err) done(err);
+                else {
+                    expect(res.status).to.equal(401);
+                    expect(res.body.successful).to.be.false;
+                    done();
+                }
+            });
+    });
+});
 
 describe('API', function () {
     let usefulData;
@@ -16,10 +46,12 @@ describe('API', function () {
                 done();
             })
             .catch(done);
+
     });
+
     describe('GET /', function () {
         it('responds with status code 200', (done) => {
-            request(server)
+            request
                 .get('/')
                 .end((err, res) => {
                     if (err) done(err);
@@ -32,7 +64,7 @@ describe('API', function () {
     });
     describe('GET /api', function () {
         it('responds with status code 200', function (done) {
-            request(server)
+            request
                 .get('/api')
                 .end((err, res) => {
                     if (err) done(err);
@@ -45,7 +77,7 @@ describe('API', function () {
     });
     describe('GET /api/topics', function () {
         it('responds with an array of topics', function (done) {
-            request(server)
+            request
                 .get('/api/topics')
                 .end((err, res) => {
                     if (err) done(err);
@@ -61,7 +93,7 @@ describe('API', function () {
     });
     describe('GET /api/articles', function () {
         it('responds with an array of articles', function (done) {
-            request(server)
+            request
                 .get('/api/articles')
                 .end((err, res) => {
                     if (err) done(err);
@@ -77,7 +109,7 @@ describe('API', function () {
     });
     describe('GET /api/users/:username', function () {
         it('responds with a user matching to username supplied ', function (done) {
-            request(server)
+            request
                 .get('/api/users/northcoder')
                 .end((err, res) => {
                     if (err) done(err);
@@ -93,7 +125,7 @@ describe('API', function () {
     });
     describe('GET /api/topics/:topic_id/articles', function () {
         it('responds with a filtered array of articles', function (done) {
-            request(server)
+            request
                 .get('/api/topics/cats/articles')
                 .end((err, res) => {
                     if (err) done(err);
@@ -109,7 +141,7 @@ describe('API', function () {
     });
     describe('GET /api/articles/article_id/comments', function () {
         it('responds with a list of commments tied to an article id ', function (done) {
-            request(server)
+            request
                 .get(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
                 .end((err, res) => {
                     if (err) done(err);
@@ -125,7 +157,7 @@ describe('API', function () {
     });
     describe('POST /api/articles/article_id/comments', function () {
         it('responds with the new comment ', function (done) {
-            request(server)
+            request
                 .post(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
                 .send({
                     body: 'test'
@@ -144,7 +176,7 @@ describe('API', function () {
     describe('PUT /api/articles/article_id', function () {
         it('responds with increased votes ', function (done) {
             const previous = usefulData.articles[0];
-            request(server)
+            request
                 .put(`/api/articles/${usefulData.articles[0]._id}?vote=up`)
                 .end((err, res) => {
                     if (err) done(err);
@@ -160,7 +192,7 @@ describe('API', function () {
     describe('PUT /api/comments/:commentId', function () {
         it('responds with increased votes ', function (done) {
             const previous = usefulData.comments[0];
-            request(server)
+            request
                 .put(`/api/comments/${usefulData.comments[0]._id}?vote=up`)
                 .end((err, res) => {
                     if (err) done(err);
@@ -175,7 +207,7 @@ describe('API', function () {
     });
     describe('DELETE /api/comments/:commentId', function () {
         it('responds with status 200 and the comment if comment is found and delelted', function (done) {
-            request(server)
+            request
                 .delete(`/api/comments/${usefulData.comments[0]._id}`)
                 .end((err, res) => {
                     if (err) done(err);
