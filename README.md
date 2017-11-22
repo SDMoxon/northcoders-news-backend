@@ -25,6 +25,7 @@ Built With
 - Express.js
 - MongoDB
 - Mongoose
+- Passport.js
 
 **List of Available Routes**
 
