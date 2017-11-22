@@ -6,6 +6,7 @@ function saveUser () {
   const user = new models.Users({
     username: 'northcoder',
     name: 'Awesome Northcoder',
+    password: '$2a$08$SEF88mByNJ2wYizYRTwX1e8lAbKz7FY5lHCP1sp6aakMqfzIpjjbG',
     avatar_url: 'https://avatars3.githubusercontent.com/u/6791502?v=3&s=200'
   });
   return user.save();
