@@ -55,7 +55,6 @@ app.post('/login', function (req, res, next) {
             if (err) { return next(err); }
             return res.status(200).send({
                 successful: true,
-                user: user
             });
         });
     })(req, res, next);
