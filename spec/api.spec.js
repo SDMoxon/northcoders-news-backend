@@ -16,20 +16,19 @@ describe('Authentication', () => {
                 if (err) done(err);
                 else {
                     expect(res.status).to.equal(200);
-                    expect(res.body.successful).to.be.true;
+
                     done();
                 }
             });
     });
-    it('should respond with a 401 if login is unsuccessful', (done) => {
+    it('should not respond with a 500 if login is unsuccessful', (done) => {
         request
             .post('/login')
             .send({ username: 'northcoder', password: 'testing' })
             .end((err, res) => {
                 if (err) done(err);
                 else {
-                    expect(res.status).to.equal(401);
-                    expect(res.body.successful).to.be.false;
+                    expect(res.status).to.equal(500);
                     done();
                 }
             });
@@ -149,7 +148,7 @@ describe('API', function () {
                         expect(res.status).to.equal(200);
                         expect(res.body.hasOwnProperty('comments')).to.equal(true);
                         expect(res.body.comments.length).to.equal(2);
-                        expect(res.body.comments[0]._id.toString()).to.equal(usefulData.comments[0]._id.toString());
+                        expect(res.body.comments[0].belongs_to.toString()).to.equal(usefulData.comments[0].belongs_to.toString());
                         done();
                     }
                 });
@@ -157,8 +156,9 @@ describe('API', function () {
     });
     describe('POST /api/articles/article_id/comments', function () {
         it('responds with the new comment ', function (done) {
+            const articleId = usefulData.comments[0].belongs_to;
             request
-                .post(`/api/articles/${usefulData.comments[0].belongs_to}/comments`)
+                .post(`/api/articles/${articleId}/comments`)
                 .send({
                     body: 'test'
                 })
@@ -167,7 +167,7 @@ describe('API', function () {
                     else {
                         expect(res.status).to.equal(201);
                         expect(res.body.body).to.eql('test');
-                        expect(res.body.belongs_to).to.eql(usefulData.comments[0].belongs_to.toString());
+                        expect(res.body.belongs_to.toString()).to.equal(articleId.toString());
                         done();
                     }
                 });

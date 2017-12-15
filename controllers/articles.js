@@ -17,7 +17,6 @@ exports.getArticlesByTopic = (req, res, next) => {
     Articles.find({ belongs_to: req.params.topic_id })
         .then(articles => {
             if (!articles.length) {
-                console.log(articles);
                 return res.status(404).json({ message: 'Articles not found' });
             }
             res.json({
