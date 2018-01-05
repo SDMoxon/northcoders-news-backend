@@ -1,17 +1,12 @@
 const { Users } = require('../models/models');
 exports.getUser = (req, res) => {
-    Users.find()
-        .then((users) => {
-            return users.filter((user) => {
-                return user.username === req.params.username;
-            });
-        })
-        .then((users) => {
-            if (!users.length) {
+    Users.findOne({ 'username': req.params.username })
+        .then((user) => {
+            if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
             res.json({
-                users
+                user
             });
         }).catch(() => {
             res.status(500);
