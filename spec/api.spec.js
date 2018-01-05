@@ -21,14 +21,26 @@ describe('Authentication', () => {
                 }
             });
     });
-    it('should not respond with a 500 if login is unsuccessful', (done) => {
+    it('should not respond with a 401 if password is wrong', (done) => {
         request
             .post('/login')
             .send({ username: 'northcoder', password: 'testing' })
             .end((err, res) => {
                 if (err) done(err);
                 else {
-                    expect(res.status).to.equal(500);
+                    expect(res.status).to.equal(401);
+                    done();
+                }
+            });
+    });
+    it('should not respond with a 401 username is wrong', (done) => {
+        request
+            .post('/login')
+            .send({ username: 'not a northcoder', password: 'password' })
+            .end((err, res) => {
+                if (err) done(err);
+                else {
+                    expect(res.status).to.equal(401);
                     done();
                 }
             });
@@ -114,9 +126,8 @@ describe('API', function () {
                     if (err) done(err);
                     else {
                         expect(res.status).to.equal(200);
-                        expect(res.body.hasOwnProperty('users')).to.equal(true);
-                        expect(res.body.users.length).to.equal(1);
-                        expect(res.body.users[0].name).to.equal('Awesome Northcoder');
+                        expect(res.body.user.username).to.equal('northcoder');
+                        expect(res.body.user.name).to.equal('Awesome Northcoder');
                         done();
                     }
                 });

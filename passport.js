@@ -14,26 +14,27 @@ module.exports = function (passport) {
             done(err, user);
         });
     });
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
     passport.use(new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password'
     },
-        function (username, password, done) { 
+        function (username, password, done) {
 
             User.findOne({ 'username': username.toLocaleLowerCase() }, function (err, user) {
 
-                if (err)
+                if (err) {
                     return done(err);
+                }
+                if (!user) {
+                    return done(null, null);
+                }
+                if (!user.validPassword(password)) {
+                    return done(null, null);
 
-                if (!user)
-                    return done(new Error('Could not find user')); 
-
-                if (!user.validPassword(password))
-                    return done(new Error('Invalid Password')); 
-
+                }
                 return done(null, user);
             });
 
